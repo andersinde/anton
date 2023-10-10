@@ -99,7 +99,7 @@ class Anton_OT_Initializer(bpy.types.Operator):
         # subprocess.call(["python3", os.path.join(scene.anton.taichi_path, "projects/spgrid_topo_opt/scripts/opt_anton.py")])
 
         bpy.ops.object.modifier_add(type='TRIANGULATE')
-        bpy.ops.object.modifier_apply(apply_as='DATA', modifier="Triangulate")
+        bpy.ops.object.modifier_apply(modifier="Triangulate")
         bpy.ops.export_scene.obj(filepath=os.path.join(scene.anton.workspace_path, scene.anton.filename, scene.anton.filename + '.obj'),
                                     check_existing=True,
                                     axis_forward='Y',

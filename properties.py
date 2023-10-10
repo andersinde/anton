@@ -1,4 +1,5 @@
 import bpy
+import os
 from bpy.props import StringProperty, IntProperty, FloatProperty, EnumProperty, BoolProperty
 
 class ForcePropertyGroup(bpy.types.PropertyGroup):
@@ -90,7 +91,7 @@ class AntonPropertyGroup(bpy.types.PropertyGroup):
         workspace_path : StringProperty(
                 name="",
                 description="Path to workspace folder",
-                default='/tmp/',
+                default=os.path.expanduser('~')
                 subtype='DIR_PATH')
 
         number_of_forces : IntProperty(

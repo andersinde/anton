@@ -173,7 +173,7 @@ class Anton_OT_Processor(bpy.types.Operator):
 
         scene = context.scene
         if scene.anton.defined:
-            subprocess.call(["python3", os.path.join(os.path.dirname(os.path.realpath(__file__)), "optimizer.py"),
+            parameters = [
                                 scene.anton.workspace_path,
                                 scene.anton.filename,
                                 "{}".format(scene.anton.number_of_iterations),
@@ -201,10 +201,17 @@ class Anton_OT_Processor(bpy.types.Operator):
                                 "{}".format(scene.anton.exclude_fixed_cells),
                                 "{}".format(scene.anton.fixed_threshold),
                                 "{}".format(scene.anton.forced_threshold),
-                                "{}".format(scene.anton.advanced_params)])
+                                "{}".format(scene.anton.advanced_params)]
+
+            ret = subprocess.call(["python3", os.path.join(os.path.dirname(os.path.realpath(__file__)), "optimizer.py"), *parameters])
+            job_file = os.path.join(scene.anton.workspace_path, scene.anton.filename, "job.sh")
+            print("writing job to", job_file)
+            with open(job_file, 'w') as f:
+                f.write("python3.7 optimizer.py ")
+                for p in parameters: f.write(" " + p) 
 
             scene.anton.optimized = True
-            self.report({'INFO'}, 'Exported results to {}'.format(os.path.join(scene.anton.workspace_path, scene.anton.filename)))
+            self.report({'INFO'}, 'Exported job script to {}'.format(os.path.join(scene.anton.workspace_path, scene.anton.filename)))
             return {'FINISHED'}
 
         else:

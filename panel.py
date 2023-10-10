@@ -28,6 +28,7 @@ class Anton_PT_Panel(bpy.types.Panel):
 
         col = layout.column()
         col.operator('anton.define', text='Define')
+        col.enabled = scene.anton.force_directioned
 
         row = layout.row()
         row.label(text=" ")
@@ -92,6 +93,7 @@ class Anton_PT_Panel(bpy.types.Panel):
 
         rowsub = layout.row(align=True)
         rowsub.operator('anton.process')
+        rowsub.enabled = scene.anton.defined
 
         row = layout.row()
         row.label(text=" ")

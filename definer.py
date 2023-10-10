@@ -210,7 +210,12 @@ class Anton_OT_Definer(bpy.types.Operator):
         forced_faces = OrderedDict()
         forced_directions = []
 
-        if scene.anton.force_directioned:
+        if os.path.exists(os.path.join(scene.anton.workspace_path, scene.anton.filename, 'fixed.npy')):
+            self.report({'INFO'}, 'force npy files exist already')
+            scene.anton.defined = True
+            return {'FINISHED'}
+
+        elif scene.anton.force_directioned:
             bpy.ops.object.mode_set(mode='OBJECT')
             for face in active_object.data.polygons:
                 if 'FIXED' in active_object.data.materials[face.material_index].name_full:
